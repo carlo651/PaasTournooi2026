@@ -26,35 +26,53 @@
     }
     .logo { font-size: 48px; margin-bottom: 8px; }
     h1 { color: #e31837; font-size: 22px; margin-bottom: 4px; }
-    .subtitle { color: #666; font-size: 14px; margin-bottom: 24px; }
+    .subtitle { color: #666; font-size: 14px; margin-bottom: 28px; }
 
-    .copy-card {
-      background: #f8f9fa;
-      border: 2px solid #e9ecef;
+    .steps {
+      text-align: left;
+      margin-bottom: 24px;
+    }
+    .step {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+    .step-num {
+      background: #e31837;
+      color: white;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: bold;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .step-text { font-size: 15px; color: #333; line-height: 1.4; }
+    .step-text strong { color: #111; }
+
+    .address-box {
+      background: #f0f4ff;
+      border: 2px solid #4a6cf7;
       border-radius: 12px;
       padding: 14px 16px;
-      margin-bottom: 12px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 12px;
       cursor: pointer;
-      transition: border-color 0.2s;
+      transition: all 0.2s;
+      margin-top: 4px;
     }
-    .copy-card:active, .copy-card.copied { border-color: #28a745; background: #f0fff4; }
-    .copy-label { font-size: 11px; color: #999; text-align: left; margin-bottom: 2px; }
-    .copy-value { font-size: 16px; font-weight: bold; color: #333; text-align: left; }
-    .copy-value.code { color: #e31837; letter-spacing: 3px; font-size: 22px; }
-    .copy-icon { font-size: 20px; flex-shrink: 0; }
-    .copy-hint { font-size: 11px; color: #aaa; margin-top: 2px; text-align: left; }
-
-    .divider { 
-      display: flex; align-items: center; gap: 8px; 
-      margin: 20px 0; color: #ccc; font-size: 12px;
-    }
-    .divider::before, .divider::after { 
-      content: ''; flex: 1; height: 1px; background: #e9ecef; 
-    }
+    .address-box:active { background: #e0f0e0; border-color: #28a745; }
+    .address-box.copied { background: #e0f0e0; border-color: #28a745; }
+    .address-text { font-size: 16px; font-weight: bold; color: #333; text-align: left; }
+    .copy-hint { font-size: 12px; color: #888; text-align: left; margin-top: 2px; }
+    .copy-icon { font-size: 22px; flex-shrink: 0; }
 
     .order-btn {
       display: block;
@@ -67,10 +85,8 @@
       font-size: 18px;
       font-weight: bold;
       text-decoration: none;
-      cursor: pointer;
-      transition: background 0.2s;
+      margin-top: 24px;
     }
-    .order-btn:hover { background: #c0141e; }
 
     .toast {
       position: fixed;
@@ -79,13 +95,14 @@
       transform: translateX(-50%);
       background: #28a745;
       color: white;
-      padding: 10px 20px;
+      padding: 10px 24px;
       border-radius: 20px;
       font-size: 14px;
       font-weight: bold;
       opacity: 0;
       transition: opacity 0.3s;
       pointer-events: none;
+      white-space: nowrap;
     }
     .toast.show { opacity: 1; }
   </style>
@@ -94,56 +111,58 @@
   <div class="card">
     <div class="logo">🍕</div>
     <h1>Domino's Pizza IJmuiden</h1>
-    <p class="subtitle">Tik om te kopiëren, dan plakken in de app</p>
+    <p class="subtitle">Volg de stappen hieronder</p>
 
-    <div class="copy-card" id="addressCard" onclick="copyText('Waterloolaan 1, Driehuis', this, 'Adres gekopieerd!')">
-      <div>
-        <div class="copy-label">BEZORGADRES</div>
-        <div class="copy-value">Waterloolaan 1, Driehuis</div>
-        <div class="copy-hint">Tik om te kopiëren</div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-text">Kopieer het bezorgadres door erop te tikken:</div>
       </div>
-      <div class="copy-icon">📋</div>
-    </div>
-
-    <div class="copy-card" id="codeCard" onclick="copyText('65414', this, 'Code gekopieerd!')">
-      <div>
-        <div class="copy-label">COUPONCODE</div>
-        <div class="copy-value code">65414</div>
-        <div class="copy-hint">Tik om te kopiëren</div>
+      <div class="address-box" id="adresBox" onclick="copyAdres()">
+        <div>
+          <div class="address-text">Waterloolaan 1, Driehuis</div>
+          <div class="copy-hint">Tik om te kopiëren 📋</div>
+        </div>
+        <div class="copy-icon">📋</div>
       </div>
-      <div class="copy-icon">🎟️</div>
-    </div>
 
-    <div class="divider">dan</div>
+      <div class="step" style="margin-top: 20px;">
+        <div class="step-num">2</div>
+        <div class="step-text">Klik op <strong>"Bestel nu"</strong> hieronder</div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-text">Plak het adres in het bezorgadres veld en klik op zoeken</div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-text">Kies je pizza's — de <strong>kortingscode is al ingevuld</strong> ✅</div>
+      </div>
+    </div>
 
     <a class="order-btn" href="https://bestellen.dominos.nl/delivery-address?vc=65414">
       🛒 Bestel nu
     </a>
   </div>
 
-  <div class="toast" id="toast"></div>
+  <div class="toast" id="toast">✓ Adres gekopieerd!</div>
 
   <script>
-    function copyText(text, card, msg) {
-      navigator.clipboard.writeText(text).then(() => {
-        card.classList.add('copied');
-        setTimeout(() => card.classList.remove('copied'), 1500);
-        showToast(msg);
-      }).catch(() => {
-        // Fallback
+    function copyAdres() {
+      const text = 'Waterloolaan 1, Driehuis';
+      navigator.clipboard.writeText(text).catch(() => {
         const el = document.createElement('textarea');
         el.value = text;
         document.body.appendChild(el);
         el.select();
         document.execCommand('copy');
         document.body.removeChild(el);
-        showToast(msg);
       });
-    }
-
-    function showToast(msg) {
+      document.getElementById('adresBox').classList.add('copied');
+      setTimeout(() => document.getElementById('adresBox').classList.remove('copied'), 1500);
       const toast = document.getElementById('toast');
-      toast.textContent = '✓ ' + msg;
       toast.classList.add('show');
       setTimeout(() => toast.classList.remove('show'), 2000);
     }
